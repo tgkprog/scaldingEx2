@@ -1,0 +1,6 @@
+p1_reco	c2_reco	c3_reco	R_catFul	RecommendedProductIds
+jog	p1b	summer	jog_c2b_summer	p2,p9
+jog	c2a	summer	jog_c2a_summer	p2,p9
+run	c2a	fast	run_c2a_fast	p1,p7
+run	c2a	badminton	run_c2a_badminton	p7,p11,p10,p1
+run	c2d	badminton	run_c2d_badminton	p15

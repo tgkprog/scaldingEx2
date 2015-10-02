@@ -1,0 +1,14 @@
+pId	brand	style	gender	c1	c2	c3	color
+p1	nike	s1	m	run	c2a	fast	blue
+p2	nike	s1	f	jog	c2b	summer	pink
+p3	adidas	s2	f	run	c2a	tennis	white
+p4	puma	s3	m	walk	c2b	stroll	red
+p5	nike	s4	m	walk	c2c	saunter	pola blue yellow
+p6	adidas	s1	f	jog	c2a	summer	white
+p7	puma	s3	m	run	c2b	tennis	white
+p8	puma	s2	f	run	c2a	badminton	red
+p9	adidas	s1	m	jog	c2a	summer	white
+p10	adidas	s2	m	run	c2a	badminton	white
+p11	puma	s2	m	walk	c2a	office	black
+p12	nike	s1	f	run	c2a	fast	blue
+p13	nike	s1	f	walk	elegant	office	black
