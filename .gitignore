@@ -19,7 +19,7 @@ alternateLocation/
 /Q1*/libs/
 libs/
 .settings/
-/Q1*/.cache
+/Q1*/.cache*
 /Q1*/.classpath
 /Q1*/.settings/
 /Q1*/data/output-*

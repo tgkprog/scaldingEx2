@@ -8,8 +8,9 @@ import cascading.pipe.Pipe
  */
 class Reccommend2(args: Args) extends Job(args) {
   implicit def str2bool(string: String): Boolean = string == null || string.toUpperCase.equals("TRUE")
-  var debug = true
 
+  var debug = true
+  var aa: Any
   //  val logs = IterableSource[(String,String,String,String,String,String,String,String,String)](input, ('datetime, 'user, 'activity, 'data,
   //    'session, 'location, 'response, 'device))
   step1()
@@ -131,8 +132,39 @@ class Reccommend2(args: Args) extends Job(args) {
     val joinType = new LeftJoin
     val pr3 = pr2.joinWithSmaller(('prodReco -> 'productIdPrc), pricePipe, joinType).addTrap(Tsv("./o1/join_price-prod_err.csv"))
     pr3.write(Tsv("./o1/ProdpriceA.csv"))
-    pr3.groupBy('productId) { _.sortBy('prc) } //.reverse
+    val pr4 = pr3.groupBy('productId) { _.sortBy('prc) } //.reverse
       .write(Tsv("./o1/ProdpriceB.csv"))
+
+    val pr5 = pr4.groupBy(('productId)) { //_.sortBy('prc)//      
+      //print(_)
+      //val ss  :String = _.groupFields.iterator().next()
+      
+      //       println("" +  _._1 )
+      _.foldLeft(('prodReco) -> 'prodsR)("") {
+        (s: String, s2: String) =>
+          {
+            
+            val currentProdId: String = "" //TODO get the current product id
+            println(" s " + s + ", s2 :" + s2 + "; pid :" + currentProdId + ".")
+            if (currentProdId.equals(s2)) {
+              s
+            } else {
+              if (s.length() == 0) {
+                s2
+              } else {
+                s + "," + s2;
+              }
+            }
+
+          }
+
+      }
+
+    }.write(Tsv("./o1/Prodprice-C.csv"))
+
+    pr5.groupBy('productId) {
+      _.take(5)
+    }.write(Tsv("./o1/Prodprice-D.csv"))
 
   }
 }
