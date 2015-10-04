@@ -5,28 +5,20 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>packt-book</groupId>
-    <artifactId>programming-map-reduce-with-scalding</artifactId>
-    <version>0</version>
+    <groupId>org.hm</groupId>
+    <artifactId>scalding1</artifactId>
+    <version>1</version>
     <packaging>pom</packaging>
 
-    <name>PACKT - Map-Reduce with Scalding</name>
-    <description>tbd</description>
+    <name>Academic Map-Reduce with Scalding</name>
+    <description>Samples local</description>
 
     <modules>
-        <module>chapter1</module> <!-- Introduction - Hadoop and Map-Reduce abstractions -->
-        <module>chapter2</module> <!-- Getting ready for Scalding -->
-        <module>chapter3</module> <!-- Scalding reference examples -->
-        <module>chapter4</module> <!-- Intermediate examples -->
-        <module>chapter5</module> <!-- Development Patterns & Best practises -->
-        <module>chapter6</module> <!-- Testing and TDD -->
-        <module>chapter7</module> <!-- Running Scalding in Production -->
-        <module>chapter8</module> <!-- -->
-        <module>chapter9</module> <!-- -->
-        <!-- <module>others</module>  -->
+    <module>Q1</module> 
+      
+    
     </modules>
 
-    <!-- Repositories -->
     <repositories>
         <repository>
             <id>maven.org</id>

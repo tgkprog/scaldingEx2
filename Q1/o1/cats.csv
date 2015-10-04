@@ -1,7 +1,12 @@
 jog	c2a	summer
+jog	t2b	summer
 run	c2a	badminton
 run	c2a	fast
 run	c2b	tennis
+run	t2a	fast
+run	t2a	tennis
 walk	c2a	office
 walk	c2b	stroll
 walk	c2c	saunter
+walk	t2b	stroll
+walk	t2c	saunter

@@ -12,7 +12,7 @@ object Runner extends App {
   val configuration = new org.apache.hadoop.conf.Configuration
 
   val log = LoggerFactory.getLogger(this.getClass.getName)
-  new adtargeting.M
+  new shoes.M
   log.info("Executing [Recmd1] Job")
   ToolRunner.run(configuration, new Tool,
     (classOf[Recmd1].getName :: runnerArgs.toList).toArray )

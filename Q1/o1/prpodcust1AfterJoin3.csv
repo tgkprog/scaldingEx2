@@ -1,7 +1,21 @@
-p9	adidas	s1	m	jog	c2a	summer	p2
-p10	adidas	s2	m	run	c2a	badminton	p7,p11,p1
-p1	nike	s1	m	run	c2a	fast	p7
-p7	puma	s3	m	run	c2b	tennis	
-p11	puma	s2	m	walk	c2a	office	
-p4	puma	s3	m	walk	c2b	stroll	
-p5	nike	s4	m	walk	c2c	saunter	
+p9	jog	c2a	summer					
+p18	jog	t2b	summer	jog_t2b_summer	jog	t2b	summer	p12,p19,p23,p26,p28,p30
+p26	jog	t2b	summer	jog_t2b_summer	jog	t2b	summer	p12,p18,p19,p23,p28,p30
+p30	jog	t2b	summer	jog_t2b_summer	jog	t2b	summer	p12,p18,p19,p23,p26,p28
+p10	run	c2a	badminton	run_c2a_badminton	run	c2a	badminton	p8
+p1	run	c2a	fast					
+p7	run	c2b	tennis					
+p27	run	t2a	fast					
+p20	run	t2a	tennis	run_t2a_tennis	run	t2a	tennis	p24,p29
+p24	run	t2a	tennis	run_t2a_tennis	run	t2a	tennis	p20,p29
+p29	run	t2a	tennis	run_t2a_tennis	run	t2a	tennis	p20,p24
+p11	walk	c2a	office	walk_c2a_office	walk	c2a	office	
+p4	walk	c2b	stroll					
+p5	walk	c2c	saunter					
+p21	walk	t2b	stroll					
+p25	walk	t2b	stroll					
+p15	walk	t2c	saunter	walk_t2c_saunter	walk	t2c	saunter	p14,p16,p17,p22,p31
+p16	walk	t2c	saunter	walk_t2c_saunter	walk	t2c	saunter	p14,p15,p17,p22,p31
+p17	walk	t2c	saunter	walk_t2c_saunter	walk	t2c	saunter	p14,p15,p16,p22,p31
+p22	walk	t2c	saunter	walk_t2c_saunter	walk	t2c	saunter	p14,p15,p16,p17,p31
+p31	walk	t2c	saunter	walk_t2c_saunter	walk	t2c	saunter	p14,p15,p16,p17,p22

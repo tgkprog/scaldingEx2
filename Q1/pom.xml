@@ -5,13 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>packt-book</groupId>
-        <artifactId>programming-map-reduce-with-scalding</artifactId>
-        <version>0</version>
+	    <groupId>org.hm</groupId>
+	    <artifactId>scalding1</artifactId>
+	    <version>1</version>
+
     </parent>
 
-    <artifactId>chapter4</artifactId>
-    <name>Chapter 4 - Intermediate Examples</name>
+    <artifactId>Q1</artifactId>
+    <name>Local Examples</name>
 
     <dependencies>
 

@@ -8,16 +8,11 @@ import cascading.pipe.Pipe
  */
 class Recmd1(args: Args) extends Job(args) {
 
-  val productsSchema = List('productId, 'brand, 'style, 'gender, 'primaryType_p1, 'type_p2, 'subType_p3, 'color)
-  val catRecoSchema = List('primaryType_p1_reco, 'type_p2_reco, 'subType_p3_reco, 'R_catFul, 'RecommendedProductIds)
-
-  val priceSchema = List('price_id, 'productId, 'maxSalePrice, 'minSalePrice)
-
   //  val logs = IterableSource[(String,String,String,String,String,String,String,String,String)](input, ('datetime, 'user, 'activity, 'data,
   //    'session, 'location, 'response, 'device))
 
-  val products1 = Tsv(args("input"), productsSchema).read
-  val catRecmnds = Tsv(args("inRCats"), catRecoSchema).read //recomdsCats.csv
+  val products1 = Tsv(args("input"), shoes.Types.ProductsSchema).read
+  val catRecmnds = Tsv(args("inRCats"), shoes.Types.CatRecoSchema).read //recomdsCats.csv
   process(products1, catRecmnds)
 
   def process(products1: Pipe, catRecmnds: Pipe) = {
@@ -28,7 +23,7 @@ class Recmd1(args: Args) extends Job(args) {
 
     val products = products1.filter('gender) {
       gender: String =>
-        val g = gender + " "//make sure we have a non null string with length at least 1
+        val g = gender + " " //make sure we have a non null string with length at least 1
         g.toLowerCase().charAt(0) == 'm'
     }.map(('primaryType_p1, 'type_p2, 'subType_p3) -> ('catFul)) {
       x: (String, String, String) =>
