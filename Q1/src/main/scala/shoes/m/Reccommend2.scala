@@ -93,7 +93,7 @@ class Reccommend2(args: Args) extends Job(args) {
 
       /*  v*/
 
-    }.discard('RecommendedProductIds)
+    }//.discard('RecommendedProductIds)
 
     n.write(Tsv("./o1/prpodcust1AfterJoin3.csv"))
     println("done 7");
