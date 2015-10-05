@@ -16,8 +16,7 @@ class PriceMerge(args: Args) extends Job(args) {
         {
           var mx = maxSalePrice;
           var mi = min;
-          if (mx == null) mx = 0
-          if (mi == null) mi = 0
+          
           mx = (mx + mi) / 2
           (productId, mx)
         }

@@ -5,4 +5,6 @@ object Types {
   val CatRecoSchema = List('full_cat, 'RecommendedProductIds)
 
   val PriceSchema = List('productIdPrc, 'maxSalePrice, 'minSalePrice)
+  
+  def remove(num: Int, list: Array[String]) = list diff List(num)
 }

@@ -10,7 +10,7 @@ class Reccommend2(args: Args) extends Job(args) {
   implicit def str2bool(string: String): Boolean = string == null || string.toUpperCase.equals("TRUE")
 
   var debug = true
-  var aa: Any
+  // var aa: Any
   //  val logs = IterableSource[(String,String,String,String,String,String,String,String,String)](input, ('datetime, 'user, 'activity, 'data,
   //    'session, 'location, 'response, 'device))
   step1()
@@ -63,7 +63,7 @@ class Reccommend2(args: Args) extends Job(args) {
             if (recom == null) recom = "";
             val i = recom.indexOf(productId)
             //string sub string or tokenize to list and remove depending on data quality and end format          
-            if (i < 0) { //"p2,p6" "p2", "p6"
+            if (i < 0) { //"p2,p6,p12,p90" "p2", "p6"
               myp = recom
             } else {
               var k = -1
@@ -93,7 +93,7 @@ class Reccommend2(args: Args) extends Job(args) {
 
       /*  v*/
 
-    }//.discard('RecommendedProductIds)
+    } //.discard('RecommendedProductIds)
 
     n.write(Tsv("./o1/prpodcust1AfterJoin3.csv"))
     println("done 7");
@@ -114,11 +114,7 @@ class Reccommend2(args: Args) extends Job(args) {
     val pricePipe = pricePipe2.mapTo(('productIdPrc, 'maxSalePrice, 'minSalePrice) -> ('productIdPrc, 'prc)) {
       (productId: String, maxSalePrice: Double, min: Double) =>
         {
-          var mx = maxSalePrice;
-          var mi = min;
-          if (mx == null) mx = 0
-          if (mi == null) mi = 0
-          mx = (mx + mi) / 2
+          var mx = (maxSalePrice + min) / 2;
           (productId, mx)
         }
     }.addTrap(Tsv("./o1/prices1_err.csv"))
@@ -127,44 +123,99 @@ class Reccommend2(args: Args) extends Job(args) {
     //val p2 = products.joinWithSmaller('productId, pricePipe, 'productIdPrc)
     shoes.M.main2()
     val pr2 = products.flatMap(('RecommendedProductIds) -> ('prodReco)) {
-      txt: String => txt.split(",")
+      txt: String =>
+        {
+          if (txt == null) {
+            //Array[String]()
+            Array.empty[String]
+          } else {
+            txt.split(",")
+          }
+        }
     }
     val joinType = new LeftJoin
     val pr3 = pr2.joinWithSmaller(('prodReco -> 'productIdPrc), pricePipe, joinType).addTrap(Tsv("./o1/join_price-prod_err.csv"))
     pr3.write(Tsv("./o1/ProdpriceA.csv"))
-    val pr4 = pr3.groupBy('productId) { _.sortBy('prc) } //.reverse
-      .write(Tsv("./o1/ProdpriceB.csv"))
+    val pr4 = pr3.groupBy('productId) { _.sortBy('prc).take(6) } //.reverse
+      .write(Tsv("./o1/Prodprice-B.csv"))
 
-    val pr5 = pr4.groupBy(('productId)) { //_.sortBy('prc)//      
-      //print(_)
-      //val ss  :String = _.groupFields.iterator().next()
-      
-      //       println("" +  _._1 )
+    val pr5 = pr4.groupBy('productId) {
       _.foldLeft(('prodReco) -> 'prodsR)("") {
-        (s: String, s2: String) =>
-          {
-            
-            val currentProdId: String = "" //TODO get the current product id
-            println(" s " + s + ", s2 :" + s2 + "; pid :" + currentProdId + ".")
-            if (currentProdId.equals(s2)) {
-              s
-            } else {
-              if (s.length() == 0) {
-                s2
-              } else {
-                s + "," + s2;
-              }
-            }
-
-          }
-
+        (s: String, s2: String) => { s + "," + s2; }
       }
+    }
 
+    val pr6 = pr5.map(('productId, 'prodsR) -> ('productId, 'prodsR)) {
+      (pid: String, pr: String) =>
+        {
+          var in = pr.trim()
+          if (in == null || in.length() < 2) {
+            (pid, "")
+
+          } else {
+            if (in.charAt(0) == 44) in = in.substring(1)
+            if (in.charAt(in.length() - 1) == 44) in = in.substring(0, in.length() - 1)
+            val lst = in.split(",")
+            val i = lst.indexOf(pid)
+            var fn: String = null
+            if (i > -1) {
+              fn = ""
+              val sb: StringBuilder = new StringBuilder
+              lst.foreach((x: String) => {
+                if (!pid.equals(x)) {
+                  if(sb.length() > 0){
+                    sb.append(",")
+                  }
+                  sb.append(x)
+                }
+              })
+              fn = sb.toString()
+            } else {
+              fn = pr
+            }
+            (pid, fn)
+          }
+        }
     }.write(Tsv("./o1/Prodprice-C.csv"))
 
-    pr5.groupBy('productId) {
-      _.take(5)
-    }.write(Tsv("./o1/Prodprice-D.csv"))
+    //    val pr5 = pr4.groupBy(('productId)) { //_.sortBy('prc)//      
+    //      //println("" + _*1)
+    //      // var aa : Any =  _.productElement(1)
+    //      //val ss  :String = _.groupFields.iterator().next()
+    //
+    //      //       println("" +  _._1 )
+    //      _.foldLeft(('prodReco) -> 'prodsR)("") {
+    //        (s: String, s2: String) =>
+    //          {
+    //
+    //            val currentProdId: String = "" //TODO get the current product id
+    //            println(" s " + s + ", s2 :" + s2 + "; pid :" + currentProdId + ".")
+    //            if (currentProdId.equals(s2)) {
+    //              s
+    //            } else {
+    //              if (s.length() == 0) {
+    //                s2
+    //              } else {
+    //                s + "," + s2;
+    //              }
+    //            }
+    //
+    //          }
+    //
+    //      }
+    //
+    //    }.write(Tsv("./o1/Prodprice-C.csv"))
+
+    //val pr5 = pr4.mapValues(_.filter { case (a,b) => a != b } );
+    //    val pr5 = pr4.mapValues(_.flatten)
+    //      .transform { case (k, v) ⇒  
+    //       x : (String, String)
+    //       => x (k1 : String, v1 : String ) = x
+    //        v.filter(_ != k) }
+    //
+    //    pr5.groupBy('productId) {
+    //      _.take(5)
+    //    }.write(Tsv("./o1/Prodprice-D.csv"))
 
   }
 }
