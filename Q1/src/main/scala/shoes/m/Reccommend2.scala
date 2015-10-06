@@ -145,38 +145,10 @@ class Reccommend2(args: Args) extends Job(args) {
       }
     }
 
-    val pr6 = pr5.map(('productId, 'prodsR) -> ('productId, 'prodsR)) {
-      (pid: String, pr: String) =>
-        {
-          var in = pr.trim()
-          if (in == null || in.length() < 2) {
-            (pid, "")
-
-          } else {
-            if (in.charAt(0) == 44) in = in.substring(1)
-            if (in.charAt(in.length() - 1) == 44) in = in.substring(0, in.length() - 1)
-            val lst = in.split(",")
-            val i = lst.indexOf(pid)
-            var fn: String = null
-            if (i > -1) {
-              fn = ""
-              val sb: StringBuilder = new StringBuilder
-              lst.foreach((x: String) => {
-                if (!pid.equals(x)) {
-                  if(sb.length() > 0){
-                    sb.append(",")
-                  }
-                  sb.append(x)
-                }
-              })
-              fn = sb.toString()
-            } else {
-              fn = pr
-            }
-            (pid, fn)
-          }
-        }
-    }.write(Tsv("./o1/Prodprice-C.csv"))
+    val pr6 =
+      pr5.map(('productId, 'prodsR) -> ('productId, 'prodsR)) {
+        (parseStrProds())
+      }.write(Tsv("./o1/Prodprice-C.csv"))
 
     //    val pr5 = pr4.groupBy(('productId)) { //_.sortBy('prc)//      
     //      //println("" + _*1)
@@ -217,5 +189,42 @@ class Reccommend2(args: Args) extends Job(args) {
     //      _.take(5)
     //    }.write(Tsv("./o1/Prodprice-D.csv"))
 
+  }
+
+  def parseStrProds() = {
+    (pid: String, pr: String) =>
+      {
+        var in = pr.trim()
+        if (in == null || in.length() < 2) {
+          (pid, "")
+
+        } else {
+          if (in.charAt(0) == 44) in = in.substring(1)
+          if (in.charAt(in.length() - 1) == 44) in = in.substring(0, in.length() - 1)
+          val lst = in.split(",")
+          val i = lst.indexOf(pid)
+          var fn: String = null
+          if (i > -1) {
+            fn = ""
+            val sb: StringBuilder = new StringBuilder
+            lst.foreach((x: String) => {
+              if (!pid.equals(x)) {
+                if (sb.length() > 0) {
+                  sb.append(",")
+                }
+                sb.append(x)
+              }
+            })
+            if (sb.charAt(0) == ',') sb.deleteCharAt(0)
+            fn = sb.toString()
+          } else {
+
+            fn = pr
+            if (pr.charAt(0) == ',') fn = pr.substring(1)
+          }
+
+          (pid, fn)
+        }
+      }
   }
 }
