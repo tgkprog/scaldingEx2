@@ -147,48 +147,34 @@ class Reccommend2(args: Args) extends Job(args) {
 
     val pr6 =
       pr5.map(('productId, 'prodsR) -> ('productId, 'prodsR)) {
-        (parseStrProds())
+        //(parseStrProds())
+        var b: Array[String] = Array()
+        (pid: String, pr: String) =>
+          {
+            val ar0 = pr.split(",")
+            b = for (e <- ar0 if !e.equals(pid)) yield e
+          }
+          (pid, b.mkString(","))
       }.write(Tsv("./o1/Prodprice-C.csv"))
 
-    //    val pr5 = pr4.groupBy(('productId)) { //_.sortBy('prc)//      
-    //      //println("" + _*1)
-    //      // var aa : Any =  _.productElement(1)
-    //      //val ss  :String = _.groupFields.iterator().next()
-    //
-    //      //       println("" +  _._1 )
-    //      _.foldLeft(('prodReco) -> 'prodsR)("") {
-    //        (s: String, s2: String) =>
-    //          {
-    //
-    //            val currentProdId: String = "" //TODO get the current product id
-    //            println(" s " + s + ", s2 :" + s2 + "; pid :" + currentProdId + ".")
-    //            if (currentProdId.equals(s2)) {
-    //              s
-    //            } else {
-    //              if (s.length() == 0) {
-    //                s2
-    //              } else {
-    //                s + "," + s2;
-    //              }
-    //            }
-    //
-    //          }
-    //
-    //      }
-    //
-    //    }.write(Tsv("./o1/Prodprice-C.csv"))
+  }
 
-    //val pr5 = pr4.mapValues(_.filter { case (a,b) => a != b } );
-    //    val pr5 = pr4.mapValues(_.flatten)
-    //      .transform { case (k, v) ⇒  
-    //       x : (String, String)
-    //       => x (k1 : String, v1 : String ) = x
-    //        v.filter(_ != k) }
-    //
-    //    pr5.groupBy('productId) {
-    //      _.take(5)
-    //    }.write(Tsv("./o1/Prodprice-D.csv"))
+  def parseArrProds() = {
+    (pid: String, pr: String) =>
+      {
+        var in = pr.trim()
+        if (in == null || in.length() < 2) {
+          (pid, "")
 
+        } else {
+          if (in.charAt(0) == 44) in = in.substring(1)
+          if (in.charAt(in.length() - 1) == 44) in = in.substring(0, in.length() - 1)
+          val lst = in.split(",")
+          var fn: String = null
+
+          (pid, fn)
+        }
+      }
   }
 
   def parseStrProds() = {
