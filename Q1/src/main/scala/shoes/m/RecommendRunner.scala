@@ -7,18 +7,6 @@ import org.apache.hadoop.util.ToolRunner
 /**
  */
 object RecommendRunner extends App {
-
-  
-  //testing for string split and return tuple
-  aa()
-  def aa() {
-    val txt = "a_v_b"
-    //expect at least two under scores
-    val r: Array[String] = txt.split("_")
-    println(r(0) + "|  " + r(1) + "|  " + r(2))
-    (r(0), r(1), r(2))
-  }
-
   val runnerArgs = Args(args)
   val configuration = new org.apache.hadoop.conf.Configuration
 
@@ -28,10 +16,8 @@ object RecommendRunner extends App {
   //  ToolRunner.run(configuration, new Tool,
   //(classOf[ProdRec].getName :: runnerArgs.toList).toArray )
 
-  log.info("Executing [Reccommend2] Job")
+  log.info("Executing [Reccommend3] Job")
   ToolRunner.run(configuration, new Tool,
-    (classOf[Reccommend2].getName :: runnerArgs.toList).toArray)
-    
-   
+    (classOf[Reccommend3].getName :: runnerArgs.toList).toArray)
 
 }

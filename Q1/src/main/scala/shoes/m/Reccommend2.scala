@@ -15,8 +15,8 @@ class Reccommend2(args: Args) extends Job(args) {
   //    'session, 'location, 'response, 'device))
   step1()
   def step1() {
-    val products1 = Tsv(args("input"), shoes.Types.ProductsSchema).read
-    val catRecmnds = Tsv(args("inRCats"), shoes.Types.CatRecoSchema).read //recomdsCats.csv
+    val products1 = Tsv(args("input"), shoes.ShoeCommon.ProductsSchema).read
+    val catRecmnds = Tsv(args("inRCats"), shoes.ShoeCommon.CatRecoSchema).read //recomdsCats.csv
     val products = products1.filter('gender) {
       gender: String =>
         val g = gender + " " //make sure we have a non null string with length at least 1
@@ -109,7 +109,7 @@ class Reccommend2(args: Args) extends Job(args) {
   def processPrice(products: Pipe, catRecmnds: Pipe) = {
     //val pricePipe = Tsv(prcFile, shoes.Types.priceSchema).read
     //val products1 = Tsv(args("input"), shoes.Types.ProductsSchema).read
-    val pricePipe2 = Tsv(args("inPrice"), shoes.Types.PriceSchema).read
+    val pricePipe2 = Tsv(args("inPrice"), shoes.ShoeCommon.PriceSchema).read
 
     val pricePipe = pricePipe2.mapTo(('productIdPrc, 'maxSalePrice, 'minSalePrice) -> ('productIdPrc, 'prc)) {
       (productId: String, maxSalePrice: Double, min: Double) =>

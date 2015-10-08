@@ -11,8 +11,8 @@ class Recmd1(args: Args) extends Job(args) {
   //  val logs = IterableSource[(String,String,String,String,String,String,String,String,String)](input, ('datetime, 'user, 'activity, 'data,
   //    'session, 'location, 'response, 'device))
 
-  val products1 = Tsv(args("input"), shoes.Types.ProductsSchema).read
-  val catRecmnds = Tsv(args("inRCats"), shoes.Types.CatRecoSchema).read //recomdsCats.csv
+  val products1 = Tsv(args("input"), shoes.ShoeCommon.ProductsSchema).read
+  val catRecmnds = Tsv(args("inRCats"), shoes.ShoeCommon.CatRecoSchema).read //recomdsCats.csv
   process(products1, catRecmnds)
 
   def process(products1: Pipe, catRecmnds: Pipe) = {
