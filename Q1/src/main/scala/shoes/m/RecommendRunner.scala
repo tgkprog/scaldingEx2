@@ -25,6 +25,7 @@ object RecommendRunner extends App {
   second
 
   def second() = {
+    //or just make a new Runner!
     val th: Thread = new Thread() {
       override def run() = {
         Thread.sleep(23000);
