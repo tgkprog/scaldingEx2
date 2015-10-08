@@ -24,7 +24,7 @@ class PriceMerge(args: Args) extends Job(args) {
     pricePipe.write(Tsv("./o1/pricePipe2.csv"))
     println("price done")
     //val p2 = products.joinWithSmaller('productId, pricePipe, 'productIdPrc)
-    shoes.M.main2()
+    shoes.M.printEnvInfo()
 
   }
 

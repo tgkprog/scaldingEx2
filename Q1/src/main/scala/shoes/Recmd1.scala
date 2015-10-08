@@ -25,11 +25,11 @@ class Recmd1(args: Args) extends Job(args) {
       gender: String =>
         val g = gender + " " //make sure we have a non null string with length at least 1
         g.toLowerCase().charAt(0) == 'm'
-    }.map(('primaryType_p1, 'type_p2, 'subType_p3) -> ('catFul)) {
+    }.map(('primaryType_p1, 'type_p2, 'subType_t3) -> ('catFul)) {
       x: (String, String, String) =>
         x._1.concat("_").concat(x._2).concat("_").concat(x._3)
     }
-    val cats = products.unique('primaryType_p1, 'type_p2, 'subType_p3) //TODO .fitler('gender =)
+    val cats = products.unique('primaryType_p1, 'type_p2, 'subType_t3) //TODO .fitler('gender =)
     println("cats made 2");
     // val productsJoin = products.joinWithLarger(fs, that, joiner, reducers);
     cats.write(Tsv("./o1/cats.csv"))
@@ -87,7 +87,7 @@ class Recmd1(args: Args) extends Job(args) {
 
     }
     n.write(Tsv("./o1/prpodcust1AfterJoin2.csv"))
-    val n2 = n.project('productId, 'brand, 'style, 'gender, 'primaryType_p1, 'type_p2, 'subType_p3, 'MyRecomdProducts);
+    val n2 = n.project('productId, 'brand, 'style, 'gender, 'primaryType_p1, 'type_p2, 'subType_t3, 'MyRecomdProducts);
     n2.write(Tsv("./o1/prpodcust1AfterJoin3.csv"))
     println("done 7");
     try {
