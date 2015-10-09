@@ -122,7 +122,7 @@ class Reccommend2(args: Args) extends Job(args) {
     println("price done")
     //val p2 = products.joinWithSmaller('productId, pricePipe, 'productIdPrc)
     shoes.M.main2()
-    val pr2 = products.flatMap(('RecommendedProductIds) -> ('prodReco)) {
+    val pr2 = products.flatMap(('RecommendedProductIds) -> ('prodRecoId)) {
       txt: String =>
         {
           if (txt == null) {
@@ -134,13 +134,15 @@ class Reccommend2(args: Args) extends Job(args) {
         }
     }
     val joinType = new LeftJoin
-    val pr3 = pr2.joinWithSmaller(('prodReco -> 'productIdPrc), pricePipe, joinType).addTrap(Tsv("./o1/join_price-prod_err.csv"))
+    val pr3 = pr2.joinWithSmaller(('prodRecoId -> 'productIdPrc), pricePipe, joinType).addTrap(Tsv("./o1/join_price-prod_err.csv"))
     pr3.write(Tsv("./o1/ProdpriceA.csv"))
-    val pr4 = pr3.groupBy('productId) { _.sortBy('prc).take(6) } //.reverse
-      .write(Tsv("./o1/Prodprice-B.csv"))
-
+    val pr4 = pr3.groupBy('productId) {
+      g =>
+      g.sortBy('prc).take(6) } //.reverse
+      //  .write(Tsv("./o1/Prodprice-B.csv"))
+//.map
     val pr5 = pr4.groupBy('productId) {
-      _.foldLeft(('prodReco) -> 'prodsR)("") {
+      _.foldLeft(('prodRecoId) -> 'prodsR)("") {
         (s: String, s2: String) => { s + "," + s2; }
       }
     }
