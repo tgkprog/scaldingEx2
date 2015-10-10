@@ -9,7 +9,7 @@ class PriceMerge(args: Args) extends Job(args) {
   def processPrice(products: Pipe, catRecmnds: Pipe) = {
     //val pricePipe = Tsv(prcFile, shoes.Types.priceSchema).read
     //val products1 = Tsv(args("input"), shoes.Types.ProductsSchema).read
-    val pricePipe2 = Tsv(args("inPrice"), shoes.Types.PriceSchema).read
+    val pricePipe2 = Tsv(args("inPrice"), shoes.ShoeCommon.PriceSchema).read
 
     val pricePipe = pricePipe2.mapTo(('productIdPrc, 'maxSalePrice, 'minSalePrice) -> ('productIdPrc, 'prc)) {
       (productId: String, maxSalePrice: Double, min: Double) =>
@@ -24,7 +24,7 @@ class PriceMerge(args: Args) extends Job(args) {
     pricePipe.write(Tsv("./o1/pricePipe2.csv"))
     println("price done")
     //val p2 = products.joinWithSmaller('productId, pricePipe, 'productIdPrc)
-    shoes.M.main2()
+    shoes.M.printEnvInfo()
 
   }
 

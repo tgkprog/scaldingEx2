@@ -1,3 +1,4 @@
+Q1/src/res/
 *.class
 *.log
 */o1/*
@@ -27,4 +28,4 @@ libs/
 /libs
 .gitignore~
 *~
-
+Q/o1/*

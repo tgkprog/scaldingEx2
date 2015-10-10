@@ -15,13 +15,13 @@ class Reccommend2(args: Args) extends Job(args) {
   //    'session, 'location, 'response, 'device))
   step1()
   def step1() {
-    val products1 = Tsv(args("input"), shoes.Types.ProductsSchema).read
-    val catRecmnds = Tsv(args("inRCats"), shoes.Types.CatRecoSchema).read //recomdsCats.csv
+    val products1 = Tsv(args("input"), shoes.ShoeCommon.ProductsSchema).read
+    val catRecmnds = Tsv(args("inRCats"), shoes.ShoeCommon.CatRecoSchema).read //recomdsCats.csv
     val products = products1.filter('gender) {
       gender: String =>
         val g = gender + " " //make sure we have a non null string with length at least 1
         Character.toLowerCase(g.charAt(0)) == 'm'
-    }.project('productId, 'primaryType_p1, 'type_p2, 'subType_p3)
+    }.project('productId, 'primaryType_t1, 'type_t2, 'subType_t3)
     //shoes.m.PriceMerge.process(products, catRecmnds, args)
     val cats2 = catRecmnds.map('full_cat -> ('rt1, 'rt2, 'rt3)) {
       x: (String) =>
@@ -40,7 +40,7 @@ class Reccommend2(args: Args) extends Job(args) {
     println("1 to 3")
 
     val joinType = new LeftJoin
-    val jointProdWithRecoCat = products.joinWithSmaller((('primaryType_p1, 'type_p2, 'subType_p3) -> ('rt1, 'rt2, 'rt3)),
+    val jointProdWithRecoCat = products.joinWithSmaller((('primaryType_t1, 'type_t2, 'subType_t3) -> ('rt1, 'rt2, 'rt3)),
       cats2, joinType).addTrap(Tsv("./o1/join_pro-rec_err.csv"))
     if (debug) {
       println("join with cat rec done")
@@ -109,7 +109,7 @@ class Reccommend2(args: Args) extends Job(args) {
   def processPrice(products: Pipe, catRecmnds: Pipe) = {
     //val pricePipe = Tsv(prcFile, shoes.Types.priceSchema).read
     //val products1 = Tsv(args("input"), shoes.Types.ProductsSchema).read
-    val pricePipe2 = Tsv(args("inPrice"), shoes.Types.PriceSchema).read
+    val pricePipe2 = Tsv(args("inPrice"), shoes.ShoeCommon.PriceSchema).read
 
     val pricePipe = pricePipe2.mapTo(('productIdPrc, 'maxSalePrice, 'minSalePrice) -> ('productIdPrc, 'prc)) {
       (productId: String, maxSalePrice: Double, min: Double) =>
@@ -121,8 +121,8 @@ class Reccommend2(args: Args) extends Job(args) {
     pricePipe.write(Tsv("./o1/pricePipe2.csv"))
     println("price done")
     //val p2 = products.joinWithSmaller('productId, pricePipe, 'productIdPrc)
-    shoes.M.main2()
-    val pr2 = products.flatMap(('RecommendedProductIds) -> ('prodRecoId)) {
+    //shoes.M.printEnvInfo()
+    val pr2 = products.flatMap(('RecommendedProductIds) -> ('prodReco)) {
       txt: String =>
         {
           if (txt == null) {

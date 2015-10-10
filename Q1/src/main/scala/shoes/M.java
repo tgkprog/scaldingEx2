@@ -3,19 +3,19 @@ package shoes;
 import java.io.File;
 import java.io.IOException;
 
+/**Debug helper*/
 public class M {
 	
-	public M(){
-		
-		main2();
+	public M(){		
+		printEnvInfo();
 	}
 	
 	public static void main(String[] args) {
-		main2();
+		new M();
 	}
 	
 	
-	public static void main2() {
+	public static void printEnvInfo() {
 		System.out.println("java home :" + System.getenv("JAVA_HOME"));
 		try {
 			File f = new File("./");

@@ -1,9 +1,9 @@
 #!/bin/bash
-mvn clean install
+#mvn clean install
 
 export DRIVEN_API_KEY=D991A15E7A174E098900CDEE4F3A3CA6
 
 #java -cp target/chapter4-0-jar-with-dependencies.jar -Xmx10G adtargeting.Runner --input log_file.tsv --local
 
-java -cp target/chapter4-0-jar-with-dependencies.jar -Xmx1G adtargeting.Runner --input log_file.tsv --local
+java -cp target/Q1-1-jar-with-dependencies.jar -Xmx1G  --input log_file.tsv --local
 
