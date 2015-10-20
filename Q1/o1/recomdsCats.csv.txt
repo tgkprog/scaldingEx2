@@ -1,4 +1,4 @@
-primaryType_p1_reco	type_p2_reco	subType_p3_reco	R_catFul	RecommendedProductIds
+primaryType_t1_reco	type_t2_reco	subType_t3_reco	R_catFul	RecommendedProductIds
 jog	p1b	summer	jog_p1b_summer	"p2,p6"
 jog	p2a	summer	jog_p2a_summer	"p2,p6"
 run	p2a	fast	run_p2a_fast	"p1,p7"

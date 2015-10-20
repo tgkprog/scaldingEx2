@@ -298,61 +298,61 @@
             </plugin>
 
             <!-- Fat Jar: This plugin assembles a Fat-Jar that contains all the dependencies and libs -->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <!-- bind to the packaging phase -->
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--             <plugin> -->
+<!--                 <artifactId>maven-assembly-plugin</artifactId> -->
+<!--                 <version>2.4</version> -->
+<!--                 <configuration> -->
+<!--                     <descriptorRefs> -->
+<!--                         <descriptorRef>jar-with-dependencies</descriptorRef> -->
+<!--                     </descriptorRefs> -->
+<!--                 </configuration> -->
+<!--                 <executions> -->
+<!--                     <execution> -->
+<!--                         <id>make-assembly</id> -->
+<!--                         bind to the packaging phase -->
+<!--                         <phase>package</phase> -->
+<!--                         <goals> -->
+<!--                             <goal>single</goal> -->
+<!--                         </goals> -->
+<!--                     </execution> -->
+<!--                 </executions> -->
+<!--             </plugin> -->
 
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>libs</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                            <followSymlinks>false</followSymlinks>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
+<!--             <plugin> -->
+<!--                 <artifactId>maven-clean-plugin</artifactId> -->
+<!--                 <version>2.5</version> -->
+<!--                 <configuration> -->
+<!--                     <filesets> -->
+<!--                         <fileset> -->
+<!--                             <directory>libs</directory> -->
+<!--                             <includes> -->
+<!--                                 <include>**/*</include> -->
+<!--                             </includes> -->
+<!--                             <followSymlinks>false</followSymlinks> -->
+<!--                         </fileset> -->
+<!--                     </filesets> -->
+<!--                 </configuration> -->
+<!--             </plugin> -->
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>libs</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--             <plugin> -->
+<!--                 <groupId>org.apache.maven.plugins</groupId> -->
+<!--                 <artifactId>maven-dependency-plugin</artifactId> -->
+<!--                 <executions> -->
+<!--                     <execution> -->
+<!--                         <id>copy-dependencies</id> -->
+<!--                         <phase>install</phase> -->
+<!--                         <goals> -->
+<!--                             <goal>copy-dependencies</goal> -->
+<!--                         </goals> -->
+<!--                         <configuration> -->
+<!--                             <outputDirectory>libs</outputDirectory> -->
+<!--                             <overWriteReleases>false</overWriteReleases> -->
+<!--                             <overWriteSnapshots>false</overWriteSnapshots> -->
+<!--                             <overWriteIfNewer>true</overWriteIfNewer> -->
+<!--                         </configuration> -->
+<!--                     </execution> -->
+<!--                 </executions> -->
+<!--             </plugin> -->
 
             <plugin>
                 <groupId>org.scalatest</groupId>
