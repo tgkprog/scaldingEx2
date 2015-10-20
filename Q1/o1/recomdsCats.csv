@@ -10,5 +10,4 @@ run_c2b_tennis	p7,p20,p24,p29,p32
 walk_c2b_stroll	p4,p11
 walk_c2c_saunter	p4,p5,p11
 walk_t2b_stroll	p4,p11,p21
-walk_t2b_stroll	p4,p11,p5,p25	l
-
+walk_t2b_stroll	p4,p11,p5,p25
