@@ -15,7 +15,7 @@ object ShoeCommon {
   val CatRecoSchema = List('full_cat, 'RecommendedProductIds)
 
   val PriceSchema = List('productIdPrc, 'maxSalePrice, 'minSalePrice)
-
+  val Prod_Id = 'productId
   val PriceAvg = List('productIdPrc, 'prc)
 
   val CAT_TYPES_PROD = ('primaryType, 'type, 'subType)
@@ -33,6 +33,7 @@ object ShoeCommon {
 
   def init(args: Args) = {
     debug = args.getOrElse(("debug"), "true")
+    println("Debug : " + debug)
   }
 
   def strToArrRemoveMatch(a: String, p: String, split: String = SEPERATOR): String = {

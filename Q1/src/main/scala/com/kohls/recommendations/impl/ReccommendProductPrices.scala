@@ -8,6 +8,7 @@ import com.twitter.scalding.FunctionImplicits._
 import cascading.pipe.Pipe
 import com.kohls.recommendations.PipeCommon
 import com.kohls.recommendations.RPaths
+import cascading.pipe.joiner.InnerJoin
 /**
  * @author Tushar
  */
@@ -28,13 +29,19 @@ class ReccommendProductPrices(args: Args) extends PipeCommon(args) {
    * (separate questions, independent tasks that can be run separately).
    */
   def processPrice(products: Pipe, catRecmnds: Pipe) = {
-    val joinType = new LeftJoin
+    val joinType = new LeftJoin // LeftJoin, InnerJoin
     val joinProdWithRecoCat = products.joinWithSmaller((ShoeCommon.CAT_TYPES_PROD -> ShoeCommon.CAT_TYPES_RECO),
       catRecmnds, joinType).addTrap(Tsv(RPaths.ProdWithRecoErrs)).discard(ShoeCommon.CAT_TYPES_PROD)
+    if (debug) {
+      joinProdWithRecoCat.write(Tsv(RPaths.joinProdRecoCat))
+    }
     val pricePipe = pricePipeGet()
     val joinProdFlatMapPids = joinProdWithRecoCat.flatMap(ShoeCommon.RECO_PROD_IDS -> ShoeCommon.RECO_PROD_ID) {
       txt: String =>
         {
+          if (debug) {
+            println("flat map : " + txt)
+          }
           if (txt == null) {
             Array.empty[String]
           } else {
@@ -44,26 +51,29 @@ class ReccommendProductPrices(args: Args) extends PipeCommon(args) {
     }
     val prodPrcPids = joinProdFlatMapPids.joinWithSmaller((ShoeCommon.RECO_PROD_ID -> ShoeCommon.PROD_ID_PRC), pricePipe, joinType).addTrap(Tsv(RPaths.JoinPricePrdErr))
     ///if (debug) pr3.write(Tsv("./o1/ProdpriceA.csv"))
-    val prodPrcGroped = prodPrcPids.groupBy('productId) { _.sortBy('prc).take(6) }
-    ///if (debug) pr4.write(Tsv("./o1/Prodprice-B.csv"))
+    val prodPrcGroped = prodPrcPids.groupBy('productId) { _.sortBy('prc).reverse.take(6) }
+    if (debug) prodPrcGroped.debug
     //need to refer to productId here so we can filter it out from recommendations during fold.
     val prodFold = prodPrcGroped.groupBy('productId) {
       _.foldLeft((ShoeCommon.RECO_PROD_ID) -> ShoeCommon.RECO_PROD_IDS)("") {
         (s: String, s2: String) =>
           {
-            //println("Point 5: " + s)
+            if (debug) {
+              println("fold left :" + s)
+            }
             s + ShoeCommon.SEPERATOR + s2;
           }
       }
     }
+
     println("Point 3")
     val prodTake5 = //take 5
-      prodFold.mapTo(ShoeCommon.PROD_AND_RECO -> ShoeCommon.PROD_AND_RECO) {
+      prodFold.mapTo(ShoeCommon.PROD_AND_RECO -> ShoeCommon.Prod_Id) {
         (pid: String, pr: String) =>
           {
             val reco = ShoeCommon.procStrSz(pr, pid, 5)
             if (debug) println("Product : " + pid + ", recommendations: " + reco)
-            (pid, reco)
+            (pid + "|" + reco)
           }
       }
     if (debug) {

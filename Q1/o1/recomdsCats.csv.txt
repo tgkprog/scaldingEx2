@@ -1,5 +1,0 @@
-primaryType_t1_reco	type_t2_reco	subType_t3_reco	R_catFul	RecommendedProductIds
-jog	p1b	summer	jog_p1b_summer	"p2,p6"
-jog	p2a	summer	jog_p2a_summer	"p2,p6"
-run	p2a	fast	run_p2a_fast	"p1,p7"
-run	p2a	badminton	run_p2a_badminton	"p7,p8,p3,p1"

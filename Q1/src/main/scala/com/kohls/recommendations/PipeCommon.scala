@@ -5,9 +5,9 @@ import com.twitter.scalding._
 import cascading.pipe.joiner.LeftJoin
 import com.twitter.scalding.FunctionImplicits._
 import cascading.pipe.Pipe
-//av
+//avShoeCommon
 class PipeCommon(args: Args) extends Job(args) {
-  //if (debug) ShoeCommon.printEnvInfo()
+  ShoeCommon.init(args)
   val (products, cats) = initInput(args)
   def initInput(args: Args): (Pipe, Pipe) = {
 
@@ -16,9 +16,10 @@ class PipeCommon(args: Args) extends Job(args) {
     val products = products1.filter(ShoeCommon.gender) {
       (pid: String, gender: String) =>
         {
-          if (debug) println("Gender filter " + pid + " " + gender)
+          val isMale = (gender != null && gender.length() > 0 && Character.toLowerCase(gender.charAt(0)) == 'm')
+          if (debug) println("Gender filter " + pid + " " + gender + " is " + isMale)
           //make sure we have a non null string with length at least 1
-          (gender != null && gender.length() > 0 && Character.toLowerCase(gender.charAt(0)) == 'm')
+          isMale
         }
     }.project(ShoeCommon.prodIdTypes)
 

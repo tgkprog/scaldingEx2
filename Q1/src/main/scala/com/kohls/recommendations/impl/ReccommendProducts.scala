@@ -20,9 +20,7 @@ class ReccommendProducts(args: Args) extends PipeCommon(args) {
    * Task 1 : match up products with recommendations
    */
   def productJoinWithRecommendations(products: Pipe, cats2: Pipe) = {
-
-    if (debug) println("1 to 3 g")
-
+    if (debug) println("1 to 3 prod reco")
     val joinType = new LeftJoin
     val jointProdWithRecoCat = products.joinWithSmaller((ShoeCommon.CAT_TYPES_PROD -> ShoeCommon.CAT_TYPES_RECO),
       cats2, joinType).addTrap(Tsv(RPaths.ProdCatErrs)).discard(ShoeCommon.CAT_TYPES_PROD)

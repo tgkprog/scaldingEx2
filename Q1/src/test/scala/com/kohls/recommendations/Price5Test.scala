@@ -30,12 +30,30 @@ class Price5Test extends WordSpec with Matchers {
       .arg("input", "input")
       .arg("inRCats", "inRCats")
       .arg("inPrice", "inPrice")
-      .arg("debug", "true")
+      .arg("debug", "false")
       //.arg("--debug", "false")
       .arg("output", "output")
       .source(Tsv("input", ProductsSchema), prdtData)
       .source(Tsv("inRCats", CatRecoSchema), catsData)
       .source(Tsv("inPrice", PriceSchema), prcData)
+
+      .sink[String](Tsv(RPaths.prodAfterCatJoin)) {
+        outputBuffer =>
+          val result = outputBuffer
+          "prodAfterCatJoin" in {
+            println("prodAfterCatJoin ")
+
+          }
+      }
+
+      .sink[String](Tsv(RPaths.joinProdRecoCat)) {
+        outputBuffer =>
+          val result = outputBuffer
+          "joinProdRecoCat" in {
+            println("joinProdRecoCat ")
+
+          }
+      }
 
       .sink[String](Tsv(RPaths.ProdAfterJoin)) {
         outputBuffer =>
@@ -67,14 +85,6 @@ class Price5Test extends WordSpec with Matchers {
           "PricePipeErrs" in {
             println("PricePipeErrs " + result)
             //result shouldEqual recoDataExp
-          }
-      }
-
-      .sink[String](Tsv(RPaths.prodAfterCatJoin)) {
-        outputBuffer =>
-          val result = outputBuffer
-          "prodAfterCatJoin" in {
-            println("prodAfterCatJoin " + result)
           }
       }
 

@@ -8,5 +8,6 @@ object RPaths {
   val JoinPricePrdErr = preDir + "join_price-prod_err.csv"
   val ProdAfterJoin = preDir + "pr-podcustAfterJoin3.csv"
   val ProdCatErrs = preDir + "join_pro-rec_err.csv"
+  val joinProdRecoCat =  preDir + "joinProdRecoCat.csv"
   val prodAfterCatJoin = preDir + "prpodcust1AfterRecoJoin1.csv"
 }

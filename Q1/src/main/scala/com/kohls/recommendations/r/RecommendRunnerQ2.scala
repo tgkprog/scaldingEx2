@@ -16,6 +16,6 @@ object RecommendRunnerQ2 extends App {
 
   log.info("Executing [ReccommendProducts] Job")
   ToolRunner.run(configuration, new Tool,
-    (classOf[ReccommendProductPrices].getName :: runnerArgs.toList).toArray)
+    (classOf[com.kohls.recommendations.impl.ReccommendProductPrices].getName :: runnerArgs.toList).toArray)
 
 }
