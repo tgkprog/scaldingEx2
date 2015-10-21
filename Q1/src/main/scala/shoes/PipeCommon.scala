@@ -7,7 +7,7 @@ import com.twitter.scalding.FunctionImplicits._
 import cascading.pipe.Pipe
 //av
 class PipeCommon(args: Args) extends Job(args) {
-  if (debug) academic.M.printEnvInfo()
+  //if (debug) ShoeCommon.printEnvInfo()
   val (products, cats) = initInput(args)
   def initInput(args: Args): (Pipe, Pipe) = {
 

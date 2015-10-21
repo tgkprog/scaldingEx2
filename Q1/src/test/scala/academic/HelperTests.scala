@@ -1,7 +1,0 @@
-package academic
-
-/**
- */
-class TestHelper {
-
-}
