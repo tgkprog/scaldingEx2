@@ -4,6 +4,7 @@ import scala.collection.mutable
 import com.kohls.recommendations._
 import com.twitter.scalding._
 import org.scalatest._
+import com.kohls.recommendations.impl.ReccommendProductPrices
 
 //import org.junit.runner.RunWith
 //import org.scalatest.junit.JUnitRunner
@@ -20,7 +21,7 @@ class Price5Test extends WordSpec with Matchers {
   val t2 = List('full_cat, 'RecommendedProductIds)
 
   val (prdtData, catsData, prcData) = RecommendTestsDataInit.getObjs1()
-  val (recoDataExp) = com.kohls.recommendations.RecommendTestsDataInit.getExpected1();
+  val (recoDataExp) = RecommendTestsDataInit.getExpected1();
   val errData = "";
   val dbgData = "";
   val finalData = ""
@@ -103,7 +104,7 @@ class Price5Test extends WordSpec with Matchers {
           "must merge products with prices & recommendations" in {
             println("errData  " + errData + "\n dbgData " + dbgData + "\n")
             println("result1 " + result)
-            //result shouldEqual recoDataExp
+            result shouldEqual recoDataExp
           }
       }.run
       .finish
