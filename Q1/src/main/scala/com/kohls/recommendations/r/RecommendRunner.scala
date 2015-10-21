@@ -1,10 +1,11 @@
-package shoes.m
+package com.kohls.recommendations.r
 
 import org.apache.hadoop.util.ToolRunner
 import org.slf4j.LoggerFactory
-
 import com.twitter.scalding.Args
 import com.twitter.scalding.Tool
+import com.kohls.recommendations.impl.ReccommendProductPrices
+import com.kohls.recommendations.impl.ReccommendProducts
 
 /**
  */

@@ -1,4 +1,4 @@
-package shoes
+package com.kohls.recommendations
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -8,21 +8,34 @@ import com.twitter.scalding.FunctionImplicits._
 import cascading.pipe.Pipe
 
 object ShoeCommon {
-  implicit def str2bool(string: String): Boolean = string == null || string.toUpperCase.equals("TRUE")
+  implicit def str2bool(string: String): Boolean = string != null && string.toUpperCase.equals("TRUE")
 
-  val ProductsSchema = List('productId, 'brand, 'style, 'gender, 'primaryType_t1, 'type_t2, 'subType_t3, 'color)
+  val SEPERATOR = ","
+  val ProductsSchema = List('productId, 'brand, 'style, 'gender, 'primaryType, 'type, 'subType, 'color)
   val CatRecoSchema = List('full_cat, 'RecommendedProductIds)
 
   val PriceSchema = List('productIdPrc, 'maxSalePrice, 'minSalePrice)
+
+  val PriceAvg = List('productIdPrc, 'prc)
+
+  val CAT_TYPES_PROD = ('primaryType, 'type, 'subType)
+  val CAT_TYPES_RECO = ('rt1, 'rt2, 'rt3)
+  val PROD_AND_RECO = ('productId, 'RecommendedProductIds)
+  val CAT_TYPES_RECO_IDs = ('rt1, 'rt2, 'rt3, 'RecommendedProductIds)
+  val RECO_PROD_IDS = 'RecommendedProductIds
+  val RECO_PROD_ID = 'RecommendedProductId
+  val PROD_ID_PRC = 'productIdPrc
+  val prodIdTypes = ('productId, 'primaryType, 'type, 'subType)
+  val gender = ('productId, 'gender)
   var debug = true
 
   def remove(num: Int, list: Array[String]) = list diff List(num)
 
-  def init(args : Args) = {
+  def init(args: Args) = {
     debug = args.getOrElse(("debug"), "true")
   }
-  
-  def strToArrRemoveMatch(a: String, p: String, split: String = ","): String = {
+
+  def strToArrRemoveMatch(a: String, p: String, split: String = SEPERATOR): String = {
     if (a == null || a.length == 0) {
       ""
     } else {
@@ -33,12 +46,12 @@ object ShoeCommon {
 
   def arrRemoveMatch(ar: Array[String], p: String): String = {
     val b = for (e <- ar if !e.equals(p)) yield e
-    b.mkString(",")
+    b.mkString(SEPERATOR)
 
   }
 
   //return a string with seperator. After removing spcified find string and retaining max elements
-  def procStrSz(in: String, find: String, max: Int = -1, sepe: String = ","): String = {
+  def procStrSz(in: String, find: String, max: Int = -1, sepe: String = SEPERATOR): String = {
     if (in == null || in.length == 0) {
       return ""
     }

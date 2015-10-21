@@ -1,4 +1,4 @@
-package shoes
+package com.kohls.recommendations
 
 object RecommendTestsDataInit {
   def getObjs1() = {

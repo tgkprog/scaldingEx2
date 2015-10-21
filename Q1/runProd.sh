@@ -13,6 +13,6 @@ export classpath=target/Q1-1.jar:../run/libs/*:../run/libs
 export c=target/Q1-1.jar:../run/libs/*:../run/libs
 echo $c
 # -classpath target/Q1-1.jar;../run/libs/*;../run/libs
-java -classpath $c shoes.m.RecommendRunner  --local --input o1/shoes-products.csv --inRCats o1/recomdsCats.csv --inPrice o1/price.csv --debug true  --output o1/pr-podcustAfterJoin3.csv
+java -classpath $c com.kohls.recommendations.RecommendRunner  --local --input o1/com.kohls.recommendations-products.csv --inRCats o1/recomdsCats.csv --inPrice o1/price.csv --debug true  --output o1/pr-podcustAfterJoin3.csv
 
 

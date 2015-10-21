@@ -1,10 +1,10 @@
-package shoes.m
+package com.kohls.recommendations.r
 
 import org.apache.hadoop.util.ToolRunner
 import org.slf4j.LoggerFactory
-
 import com.twitter.scalding.Args
 import com.twitter.scalding.Tool
+import com.kohls.recommendations.impl.ReccommendProductPrices
 
 /**
  */
@@ -16,6 +16,6 @@ object RecommendRunnerQ2 extends App {
 
   log.info("Executing [ReccommendProducts] Job")
   ToolRunner.run(configuration, new Tool,
-    (classOf[ReccommendProducts].getName :: runnerArgs.toList).toArray)
+    (classOf[ReccommendProductPrices].getName :: runnerArgs.toList).toArray)
 
 }

@@ -1,6 +1,7 @@
-package shoes
+package com.kohls.recommendations
+
 import scala.collection.mutable
-import shoes.m._
+import com.kohls.recommendations._
 import com.twitter.scalding._
 import org.scalatest._
 
@@ -18,18 +19,14 @@ class Price5Test extends WordSpec with Matchers {
   val PriceSchema = List('productIdPrc, 'maxSalePrice, 'minSalePrice)
   val t2 = List('full_cat, 'RecommendedProductIds)
 
-  val testShoeData = List(
-    ("2014/07/01", "-", "login", "-", "-", "40.001,30.001", "-", "PC", "-"),
-    ("2014/07/01", "-", "login", "-", "-", "40.002,30.002", "-", "PC", "-"))
-
   val (prdtData, catsData, prcData) = RecommendTestsDataInit.getObjs1()
-  val (recoDataExp) = shoes.RecommendTestsDataInit.getExpected1();
+  val (recoDataExp) = com.kohls.recommendations.RecommendTestsDataInit.getExpected1();
   val errData = "";
   val dbgData = "";
   val finalData = ""
 
   "The Top 5 Recommendations by Price job v5" should {
-    JobTest("shoes.m.ReccommendProductPrices")
+    JobTest("com.kohls.recommendations.impl.ReccommendProductPrices")
       .arg("input", "input")
       .arg("inRCats", "inRCats")
       .arg("inPrice", "inPrice")
@@ -39,28 +36,59 @@ class Price5Test extends WordSpec with Matchers {
       .source(Tsv("input", ProductsSchema), prdtData)
       .source(Tsv("inRCats", CatRecoSchema), catsData)
       .source(Tsv("inPrice", PriceSchema), prcData)
-      .source(Tsv("./o1/prodsRead_err.csv"), errData)
-      .source(Tsv("./o1/cats_err.csv"), errData)
-      .source(Tsv("./o1/prodsRead_err.csv"), errData)
-      .source(Tsv("./o1/join_pro-pric-rec_err.csv"), errData)
-      .source(Tsv("./o1/join_price-prod_err.csv"), errData)
-      .source(Tsv("./o1/pricesRead2_err.csv"), errData)
-      .source(Tsv("./o1/pricePipe2.csv"), errData)
-      .source(Tsv("./o1/ProdpriceA.csv"), errData)
-      .source(Tsv("./o1/catsOut.csv", t2), errData)
-      .source(Tsv("./o1/Prodprice-B.csv"), errData)
-      .sink[String](Tsv("./o1/pricePipepr6.csv")){
-       outputBuffer   =>
+
+      .sink[String](Tsv(RPaths.ProdAfterJoin)) {
+        outputBuffer =>
           val result = outputBuffer
-          "pricePipepr6" in {
-            println("pricePipepr6 " + result)
+          "pricesRead2_err" in {
+            println("pricesRead2_err ")
+
+          }
+      }
+      .sink[String](Tsv(RPaths.ProdWithRecoErrs)) {
+        outputBuffer =>
+          val result = outputBuffer
+          "pjoin_pro-pric-rec_err6" in {
+            println("join_pro-pric-rec_err ")
+          }
+      }
+
+      .sink[String](Tsv(RPaths.ProdCatErrs)) {
+        outputBuffer =>
+          val result = outputBuffer
+          "ProdCatErrs" in {
+            println("ProdCatErrs  " + result)
+          }
+      }
+
+      .sink[String](Tsv(RPaths.PricePipeErrs)) {
+        outputBuffer =>
+          val result = outputBuffer
+          "PricePipeErrs" in {
+            println("PricePipeErrs " + result)
             //result shouldEqual recoDataExp
           }
-    }
-      
+      }
+
+      .sink[String](Tsv(RPaths.prodAfterCatJoin)) {
+        outputBuffer =>
+          val result = outputBuffer
+          "prodAfterCatJoin" in {
+            println("prodAfterCatJoin " + result)
+          }
+      }
+
+      .sink[String](Tsv(RPaths.JoinPricePrdErr)) {
+        outputBuffer =>
+          val result = outputBuffer
+          "JoinPricePrdErr" in {
+            println("JoinPricePrdErr " + result)
+          }
+      }
+
       //: mutable.Buffer[(String, String)]
       .sink[(String)](Tsv("output")) {
-        outputBuffer   =>
+        outputBuffer =>
           val result = outputBuffer
           "must merge products with prices & recommendations" in {
             println("errData  " + errData + "\n dbgData " + dbgData + "\n")
@@ -69,5 +97,6 @@ class Price5Test extends WordSpec with Matchers {
           }
       }.run
       .finish
+
   }
 }
