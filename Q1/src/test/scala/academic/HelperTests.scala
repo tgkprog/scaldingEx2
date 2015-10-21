@@ -1,7 +1,7 @@
-package shoes
+package academic
 
 /**
  */
-class CalculateDailyAdPointsTest {
+class TestHelper {
 
 }

@@ -1,13 +1,13 @@
 package shoes
-import shoes.ShoeCommon
+
 import shoes.ShoeCommon.debug
 import com.twitter.scalding._
 import cascading.pipe.joiner.LeftJoin
 import com.twitter.scalding.FunctionImplicits._
 import cascading.pipe.Pipe
-
+//av
 class PipeCommon(args: Args) extends Job(args) {
-  if (debug) shoes.M.printEnvInfo()
+  if (debug) academic.M.printEnvInfo()
   val (products, cats) = initInput(args)
   def initInput(args: Args): (Pipe, Pipe) = {
 
@@ -31,9 +31,9 @@ class PipeCommon(args: Args) extends Job(args) {
   }
 
   def writeOutProd(prods: Pipe, fileName: String, cats : Pipe = null) = {
-    prods.discard('RecommendedProductIds).write(Tsv(fileName))
+    val p2 = prods.discard('RecommendedProductIds).write(Tsv(fileName)).debug
     try {
-      println(fileName + " filename2")
+      println(fileName + " filename2, 22, p2 :" + p2)
       if(cats != null){
         cats.write(Tsv("./o1/catsOut.csv"))
       }
@@ -42,5 +42,6 @@ class PipeCommon(args: Args) extends Job(args) {
     } catch {
       case t: Throwable => println("err " + t);
     }
+    (p2)
   }
-}
+}//

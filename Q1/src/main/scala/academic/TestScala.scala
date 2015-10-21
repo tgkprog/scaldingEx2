@@ -1,4 +1,4 @@
-package shoes
+package academic
 
 /**
  * @author t

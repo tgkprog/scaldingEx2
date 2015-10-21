@@ -1,6 +1,5 @@
-package shoes.m
+package academic
 import com.twitter.scalding._
-import cascading.pipe.joiner.LeftJoin
 import com.twitter.scalding.FunctionImplicits._
 import cascading.pipe.Pipe
 
@@ -24,7 +23,7 @@ class PriceMerge(args: Args) extends Job(args) {
     pricePipe.write(Tsv("./o1/pricePipe2.csv"))
     println("price done")
     //val p2 = products.joinWithSmaller('productId, pricePipe, 'productIdPrc)
-    shoes.M.printEnvInfo()
+    academic.M.printEnvInfo()
 
   }
 

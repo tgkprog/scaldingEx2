@@ -29,11 +29,11 @@ class ReccommendProducts(args: Args) extends PipeCommon(args) {
       println("join with cat rec done")
       jointProdWithRecoCat.write(Tsv("./o1/prpodcust1AfterJoin1.csv"))
     }
-
+    //remove self product id from recommendations and keep 5
     val prodWithReco = jointProdWithRecoCat.map(('productId, 'RecommendedProductIds) -> ('MyRecomdProducts)) {
       (productId: String, recommendedProductIds: String) =>
         {
-          (ShoeCommon.strToArrRemoveMatch(recommendedProductIds, productId))
+          (ShoeCommon.procStrSz(recommendedProductIds, productId, 5))
         }
     }
     if (debug) println("done 7");

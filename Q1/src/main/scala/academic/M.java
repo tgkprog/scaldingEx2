@@ -1,4 +1,4 @@
-package shoes;
+package academic;
 
 import java.io.File;
 import java.io.IOException;

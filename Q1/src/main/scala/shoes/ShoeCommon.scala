@@ -37,7 +37,8 @@ object ShoeCommon {
 
   }
 
-  def procStrSz(in: String, p: String, max: Int = -1, sepe: String = ","): String = {
+  //return a string with seperator. After removing spcified find string and retaining max elements
+  def procStrSz(in: String, find: String, max: Int = -1, sepe: String = ","): String = {
     if (in == null || in.length == 0) {
       return ""
     }
@@ -48,16 +49,16 @@ object ShoeCommon {
       in2 = in
     }
     val ar = in2.split(sepe)
-    val b = procArrSz(ar, p, max)
+    val b = procArrSz(ar, find, max)
     b.mkString(sepe)
   }
 
-  def procArrSz(ar: Array[String], p: String, max: Int = -1) = {
+  def procArrSz(ar: Array[String], find: String, max: Int = -1) = {
     var i = 0;
     var work: Boolean = true
     val bu: ArrayBuffer[String] = ArrayBuffer()
     do {
-      if (!ar(i).equals(p)) {
+      if (!ar(i).equals(find)) {
         bu.+=(ar(i))
         if (max == bu.length) work = false
       }
