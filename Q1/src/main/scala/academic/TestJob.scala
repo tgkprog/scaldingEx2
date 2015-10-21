@@ -1,10 +1,9 @@
-package shoes
+package academic
 
-import shoes.ShoeCommon.debug
 import com.twitter.scalding._
-import cascading.pipe.joiner.LeftJoin
 import com.twitter.scalding.FunctionImplicits._
 import cascading.pipe.Pipe
+import shoes.ShoeCommon
 
 class TestJob(args: Args) extends Job(args) {
   val products: Pipe = initInput(args).write(Tsv(args("output")))

@@ -17,7 +17,7 @@ object RecommendTestsDataInit {
   def getExpected1() = {
 
     val recomndtnData = List(
-      ("p18", "jog", "t2b", "summer", "p12,p19,p23,p26,p28"), ("p26", "jog", "t2b", "summer", "p12,p18,p19,p23,p28"), ("p30", "jog", "t2b", "summer", "p12,p18,p19,p23,p26"), ("p10", "run", "c2a", "badminton", "p8"), ("p1", "run", "c2a", "fast", "p3,p90"), ("p7", "run", "c2b", "tennis", "p20,p24,p29,p32"), ("p27", "", "", "", ""), ("p20", "run", "t2a", "tennis", "p24,p29,p32"), ("p24", "run", "t2a", "tennis", "p20,p29,p32"), ("p29", "run", "t2a", "tennis", "p20,p24,p32"), ("p11", "walk", "c2a", "office", ""), ("p4", "walk", "c2b", "stroll", "p11"), ("p5", "walk", "c2c", "saunter", "p4,p11"), ("p21", "walk", "t2b", "stroll", "p4,p11"), ("p25", "walk", "t2b", "stroll", "p4,p11,p21"), ("p15", "walk", "t2c", "saunter", "p14,p16,p17,p22,p31"), ("p16", "walk", "t2c", "saunter", "p14,p15,p17,p22,p31"), ("p17", "walk", "t2c", "saunter", "p14,p15,p16,p22,p31"), ("p22", "walk", "t2c", "saunter", "p14,p15,p16,p17,p31"), ("p31", "walk", "t2c", "saunter", "p14,p15,p16,p17,p22"))
+      ("p9", "p6,p12,p18,p1,p18"), ("p18", "p12,p19,p23,p26,p28"), ("p26", "p12,p18,p19,p23,p28"), ("p30", "p12,p18,p19,p23,p26"), ("p10", "p8"), ("p1", "p3,p90"), ("p7", "p20,p24,p29,p32"), ("p27", ""), ("p20", "p24,p29,p32"), ("p24", "p20,p29,p32"), ("p29", "p20,p24,p32"), ("p11", ""), ("p4", "p11"), ("p5", "p4,p11"), ("p21", "p4,p11"), ("p25", "p4,p11,p21"), ("p15", "p14,p16,p17,p22,p31"), ("p16", "p14,p15,p17,p22,p31"), ("p17", "p14,p15,p16,p22,p31"), ("p22", "p14,p15,p16,p17,p31"), ("p31", "p14,p15,p16,p17,p22"))
 
     (recomndtnData)
 

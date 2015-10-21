@@ -1,4 +1,4 @@
-package shoes
+package academic
 import shoes.m._
 import com.twitter.scalding._
 import org.scalatest._
@@ -22,8 +22,8 @@ class PipeTests extends WordSpec with Matchers {
   var errData = "";
   val finalData = "";
 
-  "Product brancd " should {
-    JobTest("shoes.TestJob")
+  "THe test job " should {
+    JobTest("academic.TestJob")
       .arg("input", "inputFile")
 
       .arg("output", "outputFile")
@@ -32,7 +32,7 @@ class PipeTests extends WordSpec with Matchers {
       .sink[(String, String)](Tsv("outputFile")) {
         outputBuffer =>
           val result = outputBuffer
-          "must merge products with prices & recommendations" in {
+          "must add b to the brand" in {
             result shouldEqual expData
           }
       }.run

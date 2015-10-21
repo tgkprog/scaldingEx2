@@ -1,4 +1,4 @@
-package shoes.m
+package academic
 import com.twitter.scalding._
 import cascading.pipe.joiner.LeftJoin
 import com.twitter.scalding.FunctionImplicits._
