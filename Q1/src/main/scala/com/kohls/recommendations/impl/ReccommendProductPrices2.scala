@@ -17,9 +17,9 @@ import cascading.pipe.joiner.InnerJoin
  * Task 2 : Join products with prices and recommendations
  * Sort by recommended price and retain 5
  */
-class ReccommendProductPrices(args: Args) extends PipeCommon(args) {
+class ReccommendProductPrices2(args: Args) extends PipeCommon(args) {
   val prodsWithReco = processPrice(products, cats)
-  writeOutProd(prodsWithReco, args("output"), cats) 
+  writeOutProd(prodsWithReco, args("output"), cats)
 
   /**
    * Finds average price from prices feed. Joins products with categories.
@@ -30,13 +30,9 @@ class ReccommendProductPrices(args: Args) extends PipeCommon(args) {
    */
   def processPrice(products: Pipe, catRecmnds: Pipe) = {
     val joinType = new LeftJoin // LeftJoin, InnerJoin
-    val joinProdWithRecoCat = products.joinWithSmaller((ProductCommon.CAT_TYPES_PROD -> ProductCommon.CAT_TYPES_RECO),
-      catRecmnds, joinType).addTrap(Tsv(RPaths.ProdWithRecoErrs)).discard(ProductCommon.CAT_TYPES_PROD)
-    if (debug) {
-      joinProdWithRecoCat.write(Tsv(RPaths.joinProdRecoCat))
-    }
+
     val pricePipe = pricePipeGet()
-    val joinProdFlatMapPids = joinProdWithRecoCat.flatMap(ProductCommon.RECO_PROD_IDS -> ProductCommon.RECO_PROD_ID) {
+    val catRecFlat = catRecmnds.flatMap(ProductCommon.RECO_PROD_IDS -> ProductCommon.RECO_PROD_ID) {
       txt: String =>
         {
           if (debug) {
@@ -49,24 +45,23 @@ class ReccommendProductPrices(args: Args) extends PipeCommon(args) {
           }
         }
     }
-    val prodPrcPids = joinProdFlatMapPids.joinWithSmaller((ProductCommon.RECO_PROD_ID -> ProductCommon.PROD_ID_PRC), pricePipe, joinType).addTrap(Tsv(RPaths.JoinPricePrdErr))
+    catRecFlat.write(Tsv("./o1/catRecFlatF.csv"))
+    val catFlatPricePipe = catRecFlat.joinWithLarger((ProductCommon.RECO_PROD_ID -> ProductCommon.PROD_ID_PRC), pricePipe, joinType).addTrap(Tsv(RPaths.catJoinPricePrdErr))
+    catFlatPricePipe.write(Tsv("./o1/catFlatPricePipe.csv"))
+    val prodPrcPids = products.joinWithSmaller((ProductCommon.CAT_TYPES_PROD -> ProductCommon.CAT_TYPES_RECO), catFlatPricePipe, joinType).addTrap(Tsv(RPaths.JoinPricePrdErr))
     ///if (debug) pr3.write(Tsv("./o1/ProdpriceA.csv"))
-    val prodPrcGroped = prodPrcPids.groupBy('productId) { _.sortBy('prc).reverse.take(6) }
+    val prodPrcGroped = prodPrcPids.groupBy(ProductCommon.Prod_Id) { _.sortBy(ProductCommon.price).reverse.take(6) }
     if (debug) prodPrcGroped.debug
     //need to refer to productId here so we can filter it out from recommendations during fold.
     val prodFold = prodPrcGroped.groupBy('productId) {
       _.foldLeft((ProductCommon.RECO_PROD_ID) -> ProductCommon.RECO_PROD_IDS)("") {
         (s: String, s2: String) =>
           {
-            if (debug) {
-              println("fold left :" + s)
-            }
-            s + ProductCommon.SEPERATOR + s2;
+            ProductCommon.strConcatIfNotNull(s, s2)
           }
       }
     }
-
-    println("Point 3")
+    if(debug)println("Point 3")
     val prodTake5 = //take 5
       prodFold.mapTo(ProductCommon.PROD_AND_RECO -> ProductCommon.Prod_Id) {
         (pid: String, pr: String) =>

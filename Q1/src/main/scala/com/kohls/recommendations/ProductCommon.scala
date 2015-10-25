@@ -7,7 +7,7 @@ import cascading.pipe.joiner.LeftJoin
 import com.twitter.scalding.FunctionImplicits._
 import cascading.pipe.Pipe
 
-object ShoeCommon {
+object ProductCommon {
   implicit def str2bool(string: String): Boolean = string != null && string.toUpperCase.equals("TRUE")
 
   val SEPERATOR = ","
@@ -17,7 +17,7 @@ object ShoeCommon {
   val PriceSchema = List('productIdPrc, 'maxSalePrice, 'minSalePrice)
   val Prod_Id = 'productId
   val PriceAvg = List('productIdPrc, 'prc)
-
+  val price = 'prc
   val CAT_TYPES_PROD = ('primaryType, 'type, 'subType)
   val CAT_TYPES_RECO = ('rt1, 'rt2, 'rt3)
   val PROD_AND_RECO = ('productId, 'RecommendedProductIds)
@@ -81,4 +81,20 @@ object ShoeCommon {
     } while (work)
     bu
   }
+
+  def strConcatIfNotNull(s: String, s2: String) = {
+    if (debug) {
+      println("fold left :" + s)
+    }
+    if (s2 == null && s == null) {
+      ""
+    } else if (s2 == null) {
+      s
+    } else if (s == null) {
+      s2
+    } else {
+      s + ProductCommon.SEPERATOR + s2;
+    }
+  }
+
 }

@@ -14,3 +14,5 @@ For part 1a - recommended products main class is com.kohls.recommendations.impl.
 For question 1b - based on price, main class is com.kohls.recommendations.impl.ReccommendProductPrices
 
 Both extend PipeCommon, which encapsulates the common, loading of product and category based recommendation feeds and filtering out non male.
+
+Q1/o1 has the input and output files for test run using runner with above ards

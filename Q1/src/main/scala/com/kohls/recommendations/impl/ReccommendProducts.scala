@@ -1,7 +1,7 @@
 package com.kohls.recommendations.impl
 
-import com.kohls.recommendations.ShoeCommon
-import com.kohls.recommendations.ShoeCommon.debug
+import com.kohls.recommendations.ProductCommon
+import com.kohls.recommendations.ProductCommon.debug
 import com.twitter.scalding._
 import cascading.pipe.joiner.LeftJoin
 import com.twitter.scalding.FunctionImplicits._
@@ -22,17 +22,17 @@ class ReccommendProducts(args: Args) extends PipeCommon(args) {
   def productJoinWithRecommendations(products: Pipe, cats2: Pipe) = {
     if (debug) println("1 to 3 prod reco")
     val joinType = new LeftJoin
-    val jointProdWithRecoCat = products.joinWithSmaller((ShoeCommon.CAT_TYPES_PROD -> ShoeCommon.CAT_TYPES_RECO),
-      cats2, joinType).addTrap(Tsv(RPaths.ProdCatErrs)).discard(ShoeCommon.CAT_TYPES_PROD)
+    val jointProdWithRecoCat = products.joinWithSmaller((ProductCommon.CAT_TYPES_PROD -> ProductCommon.CAT_TYPES_RECO),
+      cats2, joinType).addTrap(Tsv(RPaths.ProdCatErrs)).discard(ProductCommon.CAT_TYPES_PROD)
     if (debug) {
       println("join with cat rec done")
       jointProdWithRecoCat.write(Tsv(RPaths.prodAfterCatJoin))
     }
     //remove self product id from recommendations and keep 5
-    val prodWithReco = jointProdWithRecoCat.mapTo(ShoeCommon.PROD_AND_RECO -> ShoeCommon.PROD_AND_RECO) {
+    val prodWithReco = jointProdWithRecoCat.mapTo(ProductCommon.PROD_AND_RECO -> ProductCommon.PROD_AND_RECO) {
       (productId: String, recommendedProductIds: String) =>
         {
-          (productId, ShoeCommon.procStrSz(recommendedProductIds, productId, 5))
+          (productId, ProductCommon.procStrSz(recommendedProductIds, productId, 5))
         }
     }
     if (debug) println("done ReccommendProducts");

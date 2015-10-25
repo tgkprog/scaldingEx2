@@ -2,6 +2,7 @@ package com.kohls.recommendations
 //file paths 
 object RPaths {
   val preDir = "./o1/"
+  val catJoinPricePrdErr =  preDir + "catpriceJoinErrs.csv"
   val finalProdRecoCat =  preDir + "prodRecoCat.csv"
   val ProdWithRecoErrs =  preDir + "join_pro-pric-rec_err.csv"
   val PricePipeErrs = preDir + "pricesRead2_err.csv"

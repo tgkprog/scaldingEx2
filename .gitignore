@@ -28,5 +28,6 @@ libs/
 /libs
 .gitignore~
 *~
-Q/o1/*
-o1-list.txt
+Q1/o1/*
+Q1/o1-list.txt
+path.txt

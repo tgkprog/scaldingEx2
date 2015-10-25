@@ -1,19 +1,19 @@
 package com.kohls.recommendations
 
-import com.kohls.recommendations.ShoeCommon.debug
+import com.kohls.recommendations.ProductCommon.debug
 import com.twitter.scalding._
 import cascading.pipe.joiner.LeftJoin
 import com.twitter.scalding.FunctionImplicits._
 import cascading.pipe.Pipe
 //avShoeCommon
 class PipeCommon(args: Args) extends Job(args) {
-  ShoeCommon.init(args)
+  ProductCommon.init(args)
   val (products, cats) = initInput(args)
   def initInput(args: Args): (Pipe, Pipe) = {
 
-    val products1: Pipe = Tsv(args("input"), ShoeCommon.ProductsSchema).read //productPipe naming convention
-    val catRecmnds: Pipe = Tsv(args("inRCats"), ShoeCommon.CatRecoSchema).read //recomdsCats.csv
-    val products = products1.filter(ShoeCommon.gender) {
+    val products1: Pipe = Tsv(args("input"), ProductCommon.ProductsSchema).read //productPipe naming convention
+    val catRecmnds: Pipe = Tsv(args("inRCats"), ProductCommon.CatRecoSchema).read //recomdsCats.csv
+    val products = products1.filter(ProductCommon.gender) {
       (pid: String, gender: String) =>
         {
           val isMale = (gender != null && gender.length() > 0 && Character.toLowerCase(gender.charAt(0)) == 'm')
@@ -21,9 +21,9 @@ class PipeCommon(args: Args) extends Job(args) {
           //make sure we have a non null string with length at least 1
           isMale
         }
-    }.project(ShoeCommon.prodIdTypes)
+    }.project(ProductCommon.prodIdTypes)
 
-    val cats2 = catRecmnds.mapTo(ShoeCommon.CatRecoSchema -> ShoeCommon.CAT_TYPES_RECO_IDs) {
+    val cats2 = catRecmnds.mapTo(ProductCommon.CatRecoSchema -> ProductCommon.CAT_TYPES_RECO_IDs) {
       x: (String, String) =>
         {
           val (txt, reco) = x

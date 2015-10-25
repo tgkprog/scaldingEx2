@@ -14,8 +14,8 @@ object RecommendRunnerQ2 extends App {
 
   val log = LoggerFactory.getLogger(this.getClass.getName)
 
-  log.info("Executing [ReccommendProducts] Job")
+  log.info("Executing [ReccommendProducts2] Job")
   ToolRunner.run(configuration, new Tool,
-    (classOf[com.kohls.recommendations.impl.ReccommendProductPrices].getName :: runnerArgs.toList).toArray)
+    (classOf[com.kohls.recommendations.impl.ReccommendProductPrices2].getName :: runnerArgs.toList).toArray)
 
 }
